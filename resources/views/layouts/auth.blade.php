@@ -16,8 +16,8 @@
 
     <!-- Scripts -->
     @vite([
-        'resources/template/template.scss',
-        'resources/template/template.js'
+        'resources/css/app.css',
+        'resources/js/app.js',
     ])
     @yield('scripts')
 </head>

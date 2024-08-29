@@ -1,7 +1,12 @@
 import './bootstrap';
 
-import Alpine from 'alpinejs';
+// Import Theme CSS
+// import '../template/css/sb-admin-2.min.css';
 
-window.Alpine = Alpine;
+// Import Theme JS
+// import '../template/js/sb-admin-2';
 
-Alpine.start();
+// Optional: Example usage
+$(document).ready(function() {
+    console.log('jQuery is ready!');
+});

@@ -48,8 +48,6 @@
     </div>
 
     @section('scripts')
-
-    @vite('resources/template/js/sb-admin-2.js')
     <script type="module">
         $(function(){
             $('#show-password').click(function(){

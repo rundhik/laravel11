@@ -7,11 +7,18 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
-                'resources/template/template.scss',
-                'resources/template/template.js',
+
+                // 'resources/template/css/sb-admin-2.css',
                 'resources/template/js/sb-admin-2.js',
             ],
             refresh: true,
         }),
     ],
+    resolve: {
+        alias: {
+            $: '../template/vendor/jquery/jquery',
+            jQuery: '../template/vendor/jquery/jquery',
+            jquery: '../template/vendor/jquery/jquery',
+        },
+    },
 });

@@ -1,34 +1,77 @@
-<x-guest-layout>
-    <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
+@php
+    use Illuminate\Support\Facades\Route;
+    $configData = Helper::appClasses();
+    $customizerHidden = 'customizer-hide';
+@endphp
 
-        <div class="mb-4 text-sm text-gray-600">
-            {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+@extends('layouts/blankLayout')
+
+@section('title', 'Forgot Password')
+
+@section('page-style')
+    {{-- Page Css files --}}
+    @vite('resources/assets/vendor/scss/pages/page-auth.scss')
+@endsection
+
+@section('content')
+    <div class="authentication-wrapper authentication-cover">
+        <!-- Logo -->
+        <a href="{{ url('/') }}" class="auth-cover-brand d-flex align-items-center gap-2">
+            <span class="app-brand-logo demo">@include('_partials.macros', ['width' => 25, 'withbg' => 'var(--bs-primary)'])</span>
+            <span class="app-brand-text demo text-heading fw-semibold">{{ config('variables.templateName') }}</span>
+        </a>
+        <!-- /Logo -->
+        <div class="authentication-inner row m-0">
+
+            <!-- /Left Section -->
+            <div class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center justify-content-center p-12 pb-2">
+                <img src="{{ asset('assets/img/illustrations/auth-forgot-password-illustration-' . $configData['style'] . '.png') }}"
+                    class="auth-cover-illustration w-100" alt="auth-illustration"
+                    data-app-light-img="illustrations/auth-forgot-password-illustration-light.png"
+                    data-app-dark-img="illustrations/auth-forgot-password-illustration-dark.png" />
+                <img src="{{ asset('assets/img/illustrations/auth-cover-forgot-password-mask-' . $configData['style'] . '.png') }}"
+                    class="authentication-image" alt="mask"
+                    data-app-light-img="illustrations/auth-cover-forgot-password-mask-light.png"
+                    data-app-dark-img="illustrations/auth-cover-forgot-password-mask-dark.png" />
+            </div>
+            <!-- /Left Section -->
+
+            <!-- Forgot Password -->
+            <div class="d-flex col-12 col-lg-5 col-xl-4 align-items-center authentication-bg p-sm-12 p-6">
+                <div class="w-px-400 mx-auto">
+                    <h4 class="mb-1">Forgot Password? 🔒</h4>
+                    <p class="mb-5">Enter your email and we'll send you instructions to reset your password</p>
+
+                    @if (session('status'))
+                        <div class="mb-1 text-success">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+                    <form id="formAuthentication" class="mb-5" action="{{ route('password.email') }}" method="POST">
+                        @csrf
+                        <div class="form-floating form-floating-outline mb-5">
+                            <input type="text" class="form-control @error('email') is-invalid @enderror" id="email"
+                                name="email" placeholder="john@example.com" autofocus>
+                            <label for="email">Email</label>
+                            @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <span class="fw-medium">{{ $message }}</span>
+                                </span>
+                            @enderror
+                        </div>
+                        <button type="submit" class="btn btn-primary d-grid w-100">Send Reset Link</button>
+                    </form>
+                    <div class="text-center">
+                        @if (Route::has('login'))
+                            <a href="{{ route('login') }}" class="d-flex align-items-center justify-content-center">
+                                <i class="ri-arrow-left-s-line scaleX-n1-rtl ri-20px me-1_5"></i>
+                                Back to login
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            <!-- /Forgot Password -->
         </div>
-
-        @session('status')
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ $value }}
-            </div>
-        @endsession
-
-        <x-validation-errors class="mb-4" />
-
-        <form method="POST" action="{{ route('password.email') }}">
-            @csrf
-
-            <div class="block">
-                <x-label for="email" value="{{ __('Email') }}" />
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <x-button>
-                    {{ __('Email Password Reset Link') }}
-                </x-button>
-            </div>
-        </form>
-    </x-authentication-card>
-</x-guest-layout>
+    </div>
+@endsection

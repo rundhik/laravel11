@@ -1,0 +1,10 @@
+{
+  "menu": [
+    {
+      "url": "/dashboard",
+      "name": "Home",
+      "icon": "menu-icon tf-icons ri-home-smile-line",
+      "slug": "pages-home"
+    }
+  ]
+}

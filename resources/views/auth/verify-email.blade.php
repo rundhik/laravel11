@@ -1,45 +1,74 @@
-<x-guest-layout>
-    <x-authentication-card>
-        <x-slot name="logo">
-            <x-authentication-card-logo />
-        </x-slot>
+@php
+    use Illuminate\Support\Facades\Route;
+    use Illuminate\Support\Facades\Auth;
+    $configData = Helper::appClasses();
+    $customizerHidden = 'customizer-hide';
+@endphp
 
-        <div class="mb-4 text-sm text-gray-600">
-            {{ __('Before continuing, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
-        </div>
+@extends('layouts/blankLayout')
 
-        @if (session('status') == 'verification-link-sent')
-            <div class="mb-4 font-medium text-sm text-green-600">
-                {{ __('A new verification link has been sent to the email address you provided in your profile settings.') }}
+@section('title', 'Verify Email')
+
+@section('page-style')
+    {{-- Page Css files --}}
+    @vite('resources/assets/vendor/scss/pages/page-auth.scss')
+@endsection
+
+@section('content')
+    <div class="authentication-wrapper authentication-cover">
+        <!-- Logo -->
+        <a href="{{ url('/') }}" class="auth-cover-brand d-flex align-items-center gap-2">
+            <span class="app-brand-logo demo">@include('_partials.macros', ['width' => 25, 'withbg' => 'var(--bs-primary)'])</span>
+            <span class="app-brand-text demo text-heading fw-semibold">{{ config('variables.templateName') }}</span>
+        </a>
+        <!-- /Logo -->
+        <div class="authentication-inner row m-0">
+
+            <!-- /Left Section -->
+            <div class="d-none d-lg-flex col-lg-7 col-xl-8 align-items-center justify-content-center p-12 pb-2">
+                <img src="{{ asset('assets/img/illustrations/auth-verify-email-illustration-' . $configData['style'] . '.png') }}"
+                    class="auth-cover-illustration w-100" alt="auth-illustration"
+                    data-app-light-img="illustrations/auth-verify-email-illustration-light.png"
+                    data-app-dark-img="illustrations/auth-verify-email-illustration-dark.png" />
+                <img src="{{ asset('assets/img/illustrations/auth-cover-login-mask-' . $configData['style'] . '.png') }}"
+                    class="authentication-image" alt="mask"
+                    data-app-light-img="illustrations/auth-cover-login-mask-light.png"
+                    data-app-dark-img="illustrations/auth-cover-login-mask-dark.png" />
             </div>
-        @endif
+            <!-- /Left Section -->
 
-        <div class="mt-4 flex items-center justify-between">
-            <form method="POST" action="{{ route('verification.send') }}">
-                @csrf
+            <!--  Verify email -->
+            <div
+                class="d-flex col-12 col-lg-5 col-xl-4 align-items-center authentication-bg position-relative py-sm-12 px-12 py-6">
+                <div class="w-px-400 mx-auto pt-5 pt-lg-0">
+                    <h4 class="mb-1">Verify your email ✉️</h4>
 
-                <div>
-                    <x-button type="submit">
-                        {{ __('Resend Verification Email') }}
-                    </x-button>
+                    @if (session('status') == 'verification-link-sent')
+                        <div class="alert alert-success" role="alert">
+                            <div class="alert-body">
+                                A new verification link has been sent to the email address you provided during registration.
+                            </div>
+                        </div>
+                    @endif
+                    <p class="text-start mb-0">
+                        Account activation link sent to your email address: <span
+                            class="h6">{{ Auth::user()->email }}</span> Please follow the link inside to continue.
+                    </p>
+                    <div class="mt-5 d-flex flex-column gap-2">
+                        <form method="POST" action="{{ route('verification.send') }}">
+                            @csrf
+                            <button type="submit" class="w-100 btn btn-label-secondary">click here to request
+                                another</button>
+                        </form>
+
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="w-100 btn btn-danger">Log Out</button>
+                        </form>
+                    </div>
                 </div>
-            </form>
-
-            <div>
-                <a
-                    href="{{ route('profile.show') }}"
-                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                    {{ __('Edit Profile') }}</a>
-
-                <form method="POST" action="{{ route('logout') }}" class="inline">
-                    @csrf
-
-                    <button type="submit" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ms-2">
-                        {{ __('Log Out') }}
-                    </button>
-                </form>
             </div>
+            <!-- / Verify email -->
         </div>
-    </x-authentication-card>
-</x-guest-layout>
+    </div>
+@endsection

@@ -65,10 +65,17 @@
 
             <!-- navbar button: Start -->
             <li>
+                @auth()
+                <a href="{{ route('dashboard') }}"
+                    class="btn btn-primary px-2 px-sm-4 px-lg-2 px-xl-4"><span
+                        class="tf-icons ri-home-smile-line me-md-1"></span><span
+                        class="d-none d-md-block">Dashboard</span></a>
+                @else
                 <a href="{{ Route::has('login') ? route('login') : 'javascript:;' }}"
                     class="btn btn-primary px-2 px-sm-4 px-lg-2 px-xl-4"><span
                         class="tf-icons ri-user-line me-md-1"></span><span
                         class="d-none d-md-block">Login/Register</span></a>
+                @endauth
             </li>
             <!-- navbar button: End -->
         </ul>

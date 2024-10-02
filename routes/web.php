@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RoleController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,4 +16,5 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('pages.dashboard');
     })->name('dashboard');
+    Route::resource('roles', RoleController::class);
 });

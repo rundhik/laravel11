@@ -5,6 +5,12 @@
       "name": "Home",
       "icon": "menu-icon tf-icons ri-home-smile-line",
       "slug": "pages-home"
+    },
+    {
+      "url": "/roles",
+      "name": "Roles",
+      "icon": "menu-icon tf-icons ri-user-secure-line",
+      "slug": "roles-index"
     }
   ]
 }

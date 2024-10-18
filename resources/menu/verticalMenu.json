@@ -7,9 +7,9 @@
       "slug": "pages-home"
     },
     {
-      "url": "/roles",
+      "url": "/role",
       "name": "Roles",
-      "icon": "menu-icon tf-icons ri-user-secure-line",
+      "icon": "menu-icon tf-icons ri-lock-line",
       "slug": "roles-index"
     }
   ]

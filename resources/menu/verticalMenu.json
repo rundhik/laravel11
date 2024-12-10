@@ -4,13 +4,22 @@
       "url": "/dashboard",
       "name": "Home",
       "icon": "menu-icon tf-icons ri-home-smile-line",
-      "slug": "pages-home"
+      "slug": "dashboard"
+    },
+    {
+        "menuHeader": "Master Data"
+    },
+    {
+        "url": "/microservice",
+            "name": "Microservices",
+            "icon": "menu-icon tf-icons ri-customer-service-line",
+            "slug": "microservice.index"
     },
     {
       "url": "/role",
       "name": "Roles",
       "icon": "menu-icon tf-icons ri-lock-line",
-      "slug": "roles-index"
+      "slug": "role.index"
     }
   ]
 }

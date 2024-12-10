@@ -9,6 +9,8 @@
 'resources/assets/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.scss',
 'resources/assets/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.scss',
 'resources/assets/vendor/libs/@form-validation/form-validation.scss',
+'resources/assets/vendor/libs/animate-css/animate.scss',
+'resources/assets/vendor/libs/sweetalert2/sweetalert2.scss'
 ])
 @endsection
 
@@ -19,16 +21,14 @@
 'resources/assets/vendor/libs/@form-validation/popular.js',
 'resources/assets/vendor/libs/@form-validation/bootstrap5.js',
 'resources/assets/vendor/libs/@form-validation/auto-focus.js',
+'resources/assets/vendor/libs/sweetalert2/sweetalert2.js'
 ])
 @endsection
 
 <!-- Page Scripts -->
 @section('page-script')
 @vite([
-'resources/assets/js/permission-page.js',
-'resources/assets/js/modal-add-role.js',
-'resources/assets/js/modal-add-permission.js',
-'resources/assets/js/modal-edit-permission.js',
+'resources/js/role.js'
 ])
 @endsection
 
@@ -73,36 +73,61 @@
     </div>
 
     <div class="col-12">
-        <h4 class="mt-6 mb-1">Total permissions with their roles</h4>
-        <p class="mb-0">Find all of your permissions and their associate roles.</p>
+        <h4 class="mt-6 mb-1">Total users with their roles</h4>
+        <p class="mb-0">Find all of your users and their associate roles.</p>
     </div>
     <div class="col-12">
-        <!-- Permission Table -->
+        <!-- User Role Table -->
         <div class="card">
             <div class="card-datatable table-responsive">
-                <table class="datatables-permissions table">
+                <table class="datatables-data table">
                     <thead>
                         <tr>
                             <th></th>
                             <th></th>
-                            <th>Name</th>
-                            <th>Assigned To</th>
-                            <th>Updated</th>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                 </table>
             </div>
         </div>
-        <!--/ Permission Table -->
+        <!--/ User Role Table -->
     </div>
+
+    <!-- Offcanvas form data -->
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAddData" aria-labelledby="offcanvasAddDataLabel">
+        <div class="offcanvas-header border-bottom">
+            <h5 id="offcanvasAddDataLabel" class="offcanvas-title">{{ __('Add Data') }}</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body mx-0 flex-grow-0 h-100">
+            <form class="add-new-user pt-0" id="addNewDataForm">
+                <input type="hidden" name="id" id="data_id">
+                <div class="form-floating form-floating-outline mb-5">
+                    <input type="text" class="form-control" id="add-data-name" name="name" placeholder="{{ __('Name') }}" aria-label="{{ __('Name') }}" disabled />
+                    <label for="add-data-name">{{ __('Name') }}</label>
+                </div>
+                <div class="form-floating form-floating-outline mb-5">
+                    <select id="data-role" class="form-select" name="role">
+                        <option value="">{{ __('Select Role') }}</option>
+                        @foreach ($roles as $r)
+                        <option value="{{ $r->id }}">{{ $r->name }}</option>
+                        @endforeach
+                    </select>
+                    <label for="data-role">{{ __('User Role') }}</label>
+                </div>
+                <button type="submit" class="btn btn-primary me-sm-3 me-1 data-submit">{{ __('Submit') }}</button>
+                <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="offcanvas">{{ __('Cancel') }}</button>
+            </form>
+        </div>
+    </div>
+    <!--/ Offcanvas form data -->
 
 </div>
 <!--/ Role cards -->
 
-<!-- Modal -->
-@include('_partials/_modals/modal-add-role')
-@include('_partials/_modals/modal-add-permission')
-@include('_partials/_modals/modal-edit-permission')
-<!-- /Modal -->
 @endsection

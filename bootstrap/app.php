@@ -21,7 +21,15 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        //  Pengecualian validasi csrf token jika request melalui prefix /api
+        $middleware->validateCsrfTokens(except: [
+            'api/*',
+        ]);
+
+        $middleware->group('api', [
+            'throttle:api',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

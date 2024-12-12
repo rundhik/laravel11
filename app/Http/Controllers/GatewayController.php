@@ -9,7 +9,15 @@ use Illuminate\Support\Facades\Log;
 
 class GatewayController extends Controller
 {
-    public function handle(Request $request, $microservice, $endpoint)
+    /**
+     * Meneruskan permintaan ke microservice endpoint
+     *
+     * @param Illuminate\Http\Request
+     * @param string $microservice
+     * @param string $endpoint
+     * @return \Illuminate\Http\Response
+     */
+    public function forward(Request $request, $microservice, $endpoint)
     {
         try {
             // Cari microservice berdasarkan slug
@@ -38,12 +46,29 @@ class GatewayController extends Controller
                 'headers' => request()->headers->all(),
                 'data' => $data,
             ]);
-            Log::info('Outgoing Response', [
-                'status' => $response->status(),
-                'response' => $response->json(),
-            ]);
 
-            return response()->json($response->json(), $response->status());
+            if ($response->successful()) {
+                // Catat di log
+                Log::info('Outgoing Response', [
+                    'status' => $response->status(),
+                    'response' => $response->json(),
+                ]);
+
+                return response()->json($response->json(), $response->status());
+            } else {
+                // Catat di log
+                Log::info('Outgoing Response', [
+                    'status' => $response->status(),
+                    'response' => $response->reason(),
+                ]);
+
+                return response()->json(
+                    [
+                        'error' => $response->status().' '.$response->reason(),
+                    ],
+                    $response->status()
+                );
+            }
 
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

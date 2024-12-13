@@ -1,6 +1,7 @@
 <?php
 // Variables
 return [
+    "gateway" => env('API_GATEWAY_SECRET', '#Bismillah&Alhamdulillah1000%!'),
     "creatorName" => "Kemenkumham Jawa Barat",
     "creatorUrl" => "https://jabar.kemenkumham.go.id",
     "templateName" => "Materialize",

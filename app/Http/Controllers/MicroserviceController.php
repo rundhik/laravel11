@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Microservice;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 class MicroserviceController extends Controller
@@ -110,32 +111,16 @@ class MicroserviceController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi input
-        $validated = $request->validate([
-            'name' => 'required|string',
-            'url' => 'required|url',
-            'token' => 'required|string',
-            'methods' => 'required|array',
-        ]);
+        try {
+            // Validasi input
+            $validated = $request->validate([
+                'name' => 'required|string',
+                'url' => 'required|url',
+                'token' => 'nullable|string',
+                'methods' => 'required|array',
+            ]);
 
-        if ($request->id) {
-            $data = Microservice::updateOrCreate(
-                ['id' => $request->id],
-                [
-                    'name' => $validated['name'],
-                    'slug' => Str::slug($validated['name']),
-                    'base_url' => $validated['url'],
-                    'token' => $validated['token'],
-                    'methods' => $validated['methods'],
-                ],
-            );
-
-            return response()->json(__('Updated'));
-
-        } else {
-            $data = Microservice::where('name', $request->name)->first();
-
-            if (empty($data)) {
+            if ($request->id) {
                 $data = Microservice::updateOrCreate(
                     ['id' => $request->id],
                     [
@@ -146,10 +131,45 @@ class MicroserviceController extends Controller
                         'methods' => $validated['methods'],
                     ],
                 );
-                return response()->json(__('Created'));
+
+                return response()->json(__('Updated'));
+
             } else {
-                return response()->json(['message' => __('Already exists')], 422);
+                $data = Microservice::where('name', $request->name)->first();
+
+                if (empty($data)) {
+                    // Generate token otomatis (opsional)
+                    $response = Http::withHeaders([
+                        'api-gateway-key' => config('variables.gateway'),
+                    ])->post($validated['url'] . '/generate-token');
+
+                    if (!$response->successful()) {
+                        return response()->json($response->json(), $response->status());
+                    } else {
+                        $validated['token'] = $response->json('token');
+                    }
+
+                    $data = Microservice::updateOrCreate(
+                        ['id' => $request->id],
+                        [
+                            'name' => $validated['name'],
+                            'slug' => Str::slug($validated['name']),
+                            'base_url' => $validated['url'],
+                            'token' => $validated['token'],
+                            'methods' => $validated['methods'],
+                        ],
+                    );
+                    return response()->json(__('Created'));
+                } else {
+                    return response()->json(['message' => __('Already exists')], 422);
+                }
             }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan!',
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 

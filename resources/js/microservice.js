@@ -495,7 +495,7 @@ $(function () {
         $("#offcanvasAddDataLabel").html("Edit Data");
 
         // Ambil data
-        $.get(`${baseUrl}service\/${data_id}\/edit`, function (data) {
+        $.get(`${baseUrl}microservice\/${data_id}\/edit`, function (data) {
             $("#data_id").val(data.id);
             $("#add-data-name").val(data.name);
             $("#add-data-url").val(data.base_url);
@@ -531,7 +531,7 @@ $(function () {
                 // hapus data
                 $.ajax({
                     type: "DELETE",
-                    url: `${baseUrl}service/${data_id}`,
+                    url: `${baseUrl}microservice/${data_id}`,
                     success: function () {
                         dt_source.draw();
 
@@ -601,13 +601,6 @@ $(function () {
                     },
                     uri: {
                         message: "URL Tidak Valid",
-                    },
-                },
-            },
-            token: {
-                validators: {
-                    notEmpty: {
-                        message: "Masukkan token",
                     },
                 },
             },

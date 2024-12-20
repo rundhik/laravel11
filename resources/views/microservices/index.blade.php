@@ -1,6 +1,6 @@
 @extends('layouts/layoutMaster')
 
-@section('title', __('Services') )
+@section('title', __('Microservices') )
 
 <!-- Vendor Styles -->
 @section('vendor-style')
@@ -70,8 +70,8 @@
             <form class="add-new-data pt-0" id="addNewDataForm">
                 <input type="hidden" name="id" id="data_id">
                 <div class="form-floating form-floating-outline mb-5">
-                    <input type="text" class="form-control" id="add-data-name" name="name" placeholder="{{ __('Service Name') }}" aria-label="{{ __('Service Name') }}" />
-                    <label for="add-data-name">{{ __('Service Name') }}</label>
+                    <input type="text" class="form-control" id="add-data-name" name="name" placeholder="{{ __('Microservice Name') }}" aria-label="{{ __('Microservice Name') }}" />
+                    <label for="add-data-name">{{ __('Microservice Name') }}</label>
                 </div>
                 <div class="form-floating form-floating-outline mb-5">
                     <input type="text" class="form-control" id="add-data-url" name="url" placeholder="{{ __('URL') }}" aria-label="{{ __('URL') }}" />

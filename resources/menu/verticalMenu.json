@@ -12,7 +12,7 @@
     {
         "url": "/microservice",
             "name": "Microservices",
-            "icon": "menu-icon tf-icons ri-customer-service-line",
+            "icon": "menu-icon tf-icons ri-instance-line",
             "slug": "microservice.index"
     },
     {

@@ -15,8 +15,8 @@ class Helpers
         // default data array
         $DefaultData = [
             'myLayout' => 'vertical',
-            'myTheme' => 'theme-default',
-            'myStyle' => 'light',
+            'myTheme' => env('TEMPLATE_THEME', 'theme-default'),
+            'myStyle' => env('THEME_STYLE', 'dark'),
             'myRTLSupport' => true,
             'myRTLMode' => true,
             'hasCustomizer' => true,
@@ -57,7 +57,7 @@ class Helpers
             'headerType' => ['fixed', 'static'],
             'navbarType' => ['fixed', 'static', 'hidden'],
             'myStyle' => ['light', 'dark', 'system'],
-            'myTheme' => ['theme-default', 'theme-bordered', 'theme-semi-dark'],
+            'myTheme' => ['theme-default', 'theme-bordered', 'theme-semi-dark', 'theme-kanwil'],
             'myRTLSupport' => [true, false],
             'myRTLMode' => [true, false],
             'menuFixed' => [true, false],

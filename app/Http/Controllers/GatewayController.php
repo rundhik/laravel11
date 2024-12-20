@@ -24,7 +24,10 @@ class GatewayController extends Controller
             $service = Microservice::where('slug', $microservice)->first();
 
             if (!$service) {
-                return response()->json(['error' => 'Microservice not found'], 404);
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Microservice not found'
+                ], 404);
             }
 
             // Tentukan method HTTP (GET, POST, PUT, DELETE)
@@ -56,18 +59,27 @@ class GatewayController extends Controller
 
                 return response()->json($response->json(), $response->status());
             } else {
-                // Catat di log
-                Log::info('Outgoing Response', [
-                    'status' => $response->status(),
-                    'response' => $response->reason(),
-                ]);
-
-                return response()->json(
-                    [
-                        'error' => $response->status().' '.$response->reason(),
-                    ],
-                    $response->status()
-                );
+                if (!$response->json())
+                {
+                    // Catat di log
+                    Log::info('Outgoing Response', [
+                        'status' => $response->status(),
+                        'response' => $response->reason(),
+                    ]);
+                    return response()->json([
+                            'success' => false,
+                            'message' => 'Terjadi kesalahan!',
+                            'error' => $response->status().' '.$response->reason(),
+                        ], $response->status()
+                    );
+                } else {
+                    // Catat di log
+                    Log::info('Outgoing Response', [
+                        'status' => $response->status(),
+                        'response' => $response->json(),
+                    ]);
+                    return response()->json($response->json(), $response->status());
+                }
             }
 
         } catch (\Exception $e) {

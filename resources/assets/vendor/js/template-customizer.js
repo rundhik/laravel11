@@ -1255,6 +1255,14 @@ TemplateCustomizer.THEMES = [
     title: 'Default'
   },
   {
+    name: 'theme-kanwil',
+    title: 'Kanwil'
+  },
+  {
+    name: 'theme-raspberry',
+    title: 'Raspberry'
+  },
+  {
     name: 'theme-bordered',
     title: 'Bordered'
   },

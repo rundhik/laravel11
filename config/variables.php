@@ -4,7 +4,7 @@ return [
     "gateway" => env('API_GATEWAY_SECRET', '#Bismillah&Alhamdulillah1000%!'),
     "creatorName" => "Kemenkumham Jawa Barat",
     "creatorUrl" => "https://jabar.kemenkumham.go.id",
-    "templateName" => "Materialize",
+    "templateName" => "Kanwil Jabar",
     "templateSuffix" => "Kantor Wilayah Kementerian Hukum dan HAM Jawa Barat",
     "templateVersion" => "2.0.0",
     "templateFree" => false,
